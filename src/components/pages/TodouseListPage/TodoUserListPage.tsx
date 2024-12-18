@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import styled from "@emotion/styled";
 import { theme } from "../../../app/theme";
 import { TODO_PLACEHOLDER } from "../../../constants/text";
@@ -60,11 +60,15 @@ const BadgeList = styled.div`
   justify-content: center;
 `;
 
-const Badge = styled.div`
+const Badge = styled.div<{ isActivated: boolean }>`
   width: 108px;
   height: 40px;
   padding: 8px 32px 8px 32px;
   border-radius: 12px;
+
+  background-color: ${props =>
+    props.isActivated ? theme.bgBadgeActiveColor : ""};
+  color: ${props => (props.isActivated ? theme.textBadgeActiveColor : "")};
 
   text-align: center;
   font-family: Pretendard;
@@ -120,7 +124,16 @@ const CloseIcon = styled(CloseSvg)`
 
 interface TodoUserListPageProps {}
 
+const ActivatedBades = {
+  ALL_: "All",
+  TODO_: "To Do",
+  DONE_: "Done",
+};
+type ActivatedBadgeType = keyof typeof ActivatedBades;
+
 const TodoUserListPage = ({}: TodoUserListPageProps) => {
+  const [activatedBadge, setActivatedBadge] =
+    useState<ActivatedBadgeType>("ALL_");
   return (
     <Container>
       <Title>To Do List</Title>
@@ -129,16 +142,19 @@ const TodoUserListPage = ({}: TodoUserListPageProps) => {
       </TextInputInner>
       <ToDoDashboard>
         <BadgeList>
-          <Badge
-            style={{
-              backgroundColor: theme.bgBadgeActiveColor,
-              color: theme.textBadgeActiveColor,
-            }}
-          >
-            All
-          </Badge>
-          <Badge>To Do</Badge>
-          <Badge>Done</Badge>
+          {Object.keys(ActivatedBades)
+            .filter((key): key is ActivatedBadgeType => key in ActivatedBades)
+            .map(key => (
+              <Badge
+                key={`todoPadge-badge-${key}`}
+                onClick={() => {
+                  setActivatedBadge(key);
+                }}
+                isActivated={key === activatedBadge}
+              >
+                {ActivatedBades[key]}
+              </Badge>
+            ))}
         </BadgeList>
         <TodoList>
           <TodoListTitle>총 3개</TodoListTitle>
