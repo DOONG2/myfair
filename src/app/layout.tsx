@@ -1,5 +1,6 @@
 import React from "react";
 import LayoutRecoil from "./layout.recoil";
+import "./reset.css";
 import "./globals.css";
 
 export const metadata = {
