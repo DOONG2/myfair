@@ -1,9 +1,11 @@
 "use client";
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 import TodoUserBadgeList from "./TodoUserBadgeList";
 import { Container, Title, ToDoDashboard } from "./style";
 import TodoUserTextInput from "./TodoUserTextInput";
 import TodoUserList from "./TodoUserList";
+import guardLocalStorage from "../../../shared/guardLocalStorage";
+import { TODO_LIST_KEY } from "../../../shared/key";
 
 interface TodoUserListPageProps {}
 
@@ -22,11 +24,17 @@ export type TodoType = {
 const TodoUserListPage = ({}: TodoUserListPageProps) => {
   const [activatedBadge, setActivatedBadge] =
     useState<ActivatedBadgeType>("ALL_");
-  const [todoList, setTodoList] = useState<TodoType[]>([]);
+  const [todoList, setTodoList] = useState<TodoType[]>(
+    JSON.parse(guardLocalStorage(TODO_LIST_KEY) ?? "[]")
+  );
 
   const [todoInputValue, setTodoInputValue] = useState("");
   const [isValid, setIsValid] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
+
+  useEffect(() => {
+    localStorage.setItem(TODO_LIST_KEY, JSON.stringify(todoList));
+  }, [todoList]);
 
   return (
     <Container>
