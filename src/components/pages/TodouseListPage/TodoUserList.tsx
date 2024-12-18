@@ -1,4 +1,4 @@
-import { useCallback } from "react";
+import { useCallback, useMemo } from "react";
 import {
   CheckIcon,
   CheckIconInner,
@@ -11,14 +11,24 @@ import {
 import { ActivatedBadgeType, TodoType } from "./TodoUserListPage";
 
 interface TodoUserListProps {
-  filteredTodoList: TodoType[];
+  todoList: TodoType[];
+  activatedBadge: ActivatedBadgeType;
   setTodoList: React.Dispatch<React.SetStateAction<TodoType[]>>;
 }
 
 export default function TodoUserList({
-  filteredTodoList,
+  todoList,
+  activatedBadge,
   setTodoList,
 }: TodoUserListProps) {
+  const filteredTodoList = useMemo(
+    () =>
+      todoList.filter(
+        todo => todo.type === activatedBadge || activatedBadge === "ALL_"
+      ),
+    [todoList, activatedBadge]
+  );
+
   const handleClickCheckIcon = useCallback((todoIndex: number) => {
     setTodoList(list =>
       list.map((todo, i) =>

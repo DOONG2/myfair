@@ -28,14 +28,6 @@ const TodoUserListPage = ({}: TodoUserListPageProps) => {
   const [isValid, setIsValid] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
 
-  const filteredList = useMemo(
-    () =>
-      todoList.filter(
-        todo => todo.type === activatedBadge || activatedBadge === "ALL_"
-      ),
-    [todoList, activatedBadge]
-  );
-
   return (
     <Container>
       <Title>To Do List</Title>
@@ -54,7 +46,8 @@ const TodoUserListPage = ({}: TodoUserListPageProps) => {
           setActivatedBadge={setActivatedBadge}
         />
         <TodoUserList
-          filteredTodoList={filteredList}
+          todoList={todoList}
+          activatedBadge={activatedBadge}
           setTodoList={setTodoList}
         />
       </ToDoDashboard>
