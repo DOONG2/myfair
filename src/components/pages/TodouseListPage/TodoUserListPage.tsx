@@ -1,23 +1,9 @@
 "use client";
-import React, { useCallback, useState } from "react";
-import { TODO_PLACEHOLDER } from "../../../constants/text";
+import React, { useState } from "react";
 import TodoUserBadgeList from "./TodoUserBadgeList";
-import {
-  CheckIcon,
-  CheckIconInner,
-  CloseIcon,
-  Container,
-  Input,
-  TextForm,
-  TextInputInner,
-  Title,
-  Todo,
-  ToDoDashboard,
-  TodoInputErrorMessage,
-  TodoList,
-  TodoListTitle,
-  TodoText,
-} from "./style";
+import { Container, Title, ToDoDashboard } from "./style";
+import TodoUserTextInput from "./TodoUserTextInput";
+import TodoUserList from "./TodoUserList";
 
 interface TodoUserListPageProps {}
 
@@ -42,87 +28,24 @@ const TodoUserListPage = ({}: TodoUserListPageProps) => {
   const [isValid, setIsValid] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
 
-  const handleChangeTodoInput = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      const value = e.target.value;
-      setTodoInputValue(value);
-
-      if (value.length > 20) {
-        setIsValid(false);
-        setErrorMessage("20글자를 초과할 수 없습니다.");
-      } else {
-        setIsValid(true);
-        setErrorMessage("");
-      }
-    },
-    []
-  );
-
-  const handleSubmitTodoInput = useCallback(
-    (e: React.FormEvent<HTMLFormElement>) => {
-      e.preventDefault();
-      if (!isValid) return;
-      setTodoList(todoList => [
-        ...todoList,
-        { type: "TODO_", text: todoInputValue },
-      ]);
-      setTodoInputValue("");
-    },
-    [todoInputValue, isValid]
-  );
-
   return (
     <Container>
       <Title>To Do List</Title>
-      <TextInputInner>
-        <TextForm onSubmit={handleSubmitTodoInput}>
-          <Input
-            value={todoInputValue}
-            onChange={handleChangeTodoInput}
-            placeholder={TODO_PLACEHOLDER}
-          />
-          {!isValid && (
-            <TodoInputErrorMessage>{errorMessage}</TodoInputErrorMessage>
-          )}
-        </TextForm>
-      </TextInputInner>
+      <TodoUserTextInput
+        isValid={isValid}
+        errorMessage={errorMessage}
+        todoInputValue={todoInputValue}
+        setTodoInputValue={setTodoInputValue}
+        setIsValid={setIsValid}
+        setErrorMessage={setErrorMessage}
+        setTodoList={setTodoList}
+      />
       <ToDoDashboard>
         <TodoUserBadgeList
           activatedBadge={activatedBadge}
           setActivatedBadge={setActivatedBadge}
         />
-        <TodoList>
-          <TodoListTitle>{`총 ${todoList.length}개`}</TodoListTitle>
-          {todoList.map(({ type, text }, todoIndex) => (
-            <Todo key={`todo-${todoIndex}`}>
-              <CheckIconInner
-                isActivated={type === "DONE_"}
-                onClick={() => {
-                  setTodoList(list =>
-                    list.map((todo, i) =>
-                      i === todoIndex
-                        ? {
-                            ...todo,
-                            type: todo.type === "TODO_" ? "DONE_" : "TODO_",
-                          }
-                        : todo
-                    )
-                  );
-                }}
-              >
-                {type === "DONE_" && <CheckIcon />}
-              </CheckIconInner>
-              <TodoText>{text}</TodoText>
-              <CloseIcon
-                onClick={() => {
-                  setTodoList(list =>
-                    list.filter((_, closeIndex) => closeIndex !== todoIndex)
-                  );
-                }}
-              />
-            </Todo>
-          ))}
-        </TodoList>
+        <TodoUserList todoList={todoList} setTodoList={setTodoList} />
       </ToDoDashboard>
     </Container>
   );
