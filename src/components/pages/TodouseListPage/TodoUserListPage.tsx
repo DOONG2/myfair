@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import TodoUserBadgeList from "./TodoUserBadgeList";
 import { Container, Title, ToDoDashboard } from "./style";
 import TodoUserTextInput from "./TodoUserTextInput";
@@ -28,6 +28,14 @@ const TodoUserListPage = ({}: TodoUserListPageProps) => {
   const [isValid, setIsValid] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
 
+  const filteredList = useMemo(
+    () =>
+      todoList.filter(
+        todo => todo.type === activatedBadge || activatedBadge === "ALL_"
+      ),
+    [todoList, activatedBadge]
+  );
+
   return (
     <Container>
       <Title>To Do List</Title>
@@ -45,7 +53,10 @@ const TodoUserListPage = ({}: TodoUserListPageProps) => {
           activatedBadge={activatedBadge}
           setActivatedBadge={setActivatedBadge}
         />
-        <TodoUserList todoList={todoList} setTodoList={setTodoList} />
+        <TodoUserList
+          filteredTodoList={filteredList}
+          setTodoList={setTodoList}
+        />
       </ToDoDashboard>
     </Container>
   );
