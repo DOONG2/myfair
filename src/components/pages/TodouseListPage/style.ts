@@ -1,6 +1,7 @@
 import styled from "@emotion/styled";
 import { theme } from "../../../app/theme";
 import CloseSvg from "../../../icons/CloseSvg";
+import MemoCheckSvg from "../../../icons/CheckSvg";
 
 export const Container = styled.div`
   display: flex;
@@ -17,6 +18,7 @@ export const Title = styled.div`
   line-height: 72px;
 `;
 export const TextInputInner = styled.div`
+  position: relative;
   padding: 32px;
   margin-top: 64px;
   width: 737px;
@@ -117,4 +119,16 @@ export const CloseIcon = styled(CloseSvg)`
   :hover {
     cursor: pointer;
   }
+`;
+
+export const CheckIcon = styled(MemoCheckSvg)``;
+
+export const TodoInputErrorMessage = styled.div`
+  position: absolute;
+  bottom: 5px;
+  color: red;
+`;
+
+export const TextForm = styled.form`
+  border: none;
 `;
