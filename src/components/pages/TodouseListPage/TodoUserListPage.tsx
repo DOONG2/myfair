@@ -35,6 +35,7 @@ const TodoUserListPage = ({}: TodoUserListPageProps) => {
         isValid={isValid}
         errorMessage={errorMessage}
         todoInputValue={todoInputValue}
+        todoList={todoList}
         setTodoInputValue={setTodoInputValue}
         setIsValid={setIsValid}
         setErrorMessage={setErrorMessage}

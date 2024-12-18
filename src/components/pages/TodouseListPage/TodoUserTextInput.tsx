@@ -1,4 +1,4 @@
-import { useCallback } from "react";
+import { useCallback, useMemo } from "react";
 import { TODO_PLACEHOLDER } from "../../../constants/text";
 import {
   Input,
@@ -12,6 +12,7 @@ interface TodoUserTextInputProps {
   isValid: boolean;
   errorMessage: string;
   todoInputValue: string;
+  todoList: TodoType[];
   setTodoInputValue: (todoInputValue: string) => void;
   setIsValid: (isValid: boolean) => void;
   setErrorMessage: (errorMessage: string) => void;
@@ -22,11 +23,16 @@ export default function TodoUserTextInput({
   isValid,
   errorMessage,
   todoInputValue,
+  todoList,
   setTodoInputValue,
   setIsValid,
   setErrorMessage,
   setTodoList,
 }: TodoUserTextInputProps) {
+  const typeTODO_Count = useMemo(
+    () => todoList.filter(todo => todo.type === "TODO_").length,
+    [todoList]
+  );
   const handleChangeTodoInput = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       const value = e.target.value;
@@ -34,7 +40,7 @@ export default function TodoUserTextInput({
 
       if (value.length > 20) {
         setIsValid(false);
-        setErrorMessage("20글자를 초과할 수 없습니다.");
+        setErrorMessage("'할 일'은 20글자를 넘길 수 없습니다.");
       } else {
         setIsValid(true);
         setErrorMessage("");
@@ -47,6 +53,18 @@ export default function TodoUserTextInput({
     (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
       if (!isValid) return;
+
+      if (typeTODO_Count >= 10) {
+        setIsValid(false);
+        setErrorMessage("처리가 안된 '할 일'은 10개를 넘을 수 없습니다.");
+
+        setTimeout(() => {
+          setIsValid(true);
+          setErrorMessage("");
+        }, 3000);
+        return;
+      }
+
       setTodoList((todoList: TodoType[]): TodoType[] => [
         ...todoList,
         { type: "TODO_", text: todoInputValue },
