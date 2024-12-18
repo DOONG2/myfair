@@ -39,6 +39,10 @@ export const Input = styled.input`
   text-align: left;
   text-underline-position: from-font;
   text-decoration-skip-ink: none;
+
+  ::placeholder {
+    font-weight: 100;
+  }
 `;
 
 export const ToDoDashboard = styled.div`
