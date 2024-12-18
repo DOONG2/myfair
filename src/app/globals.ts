@@ -3,5 +3,7 @@ import { resetCSS } from "./reset";
 
 export const globalStyle = css`
   ${resetCSS}
-  font-family: 'Pretendard';
+  * {
+    font-family: "Pretendard";
+  }
 `;
