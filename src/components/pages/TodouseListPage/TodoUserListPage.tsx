@@ -71,6 +71,10 @@ const Badge = styled.div`
   font-size: 16px;
   font-weight: 600;
   line-height: 30px;
+
+  :hover {
+    cursor: pointer;
+  }
 `;
 
 const TodoList = styled.div`
