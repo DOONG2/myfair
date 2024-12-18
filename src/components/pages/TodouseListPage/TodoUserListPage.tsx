@@ -95,10 +95,6 @@ const TodoText = styled.div`
   flex-grow: 1;
   font-size: 20px;
   font-weight: 400;
-
-  :hover {
-    cursor: pointer;
-  }
 `;
 
 const CheckIcon = styled.div`
