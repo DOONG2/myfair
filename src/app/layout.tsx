@@ -1,9 +1,11 @@
+"use client";
 import React from "react";
 import LayoutRecoil from "./layout.recoil";
-import "./reset.css";
-import "./globals.css";
+import { Global, ThemeProvider } from "@emotion/react";
+import { globalStyle } from "./globals";
+import { theme } from "./theme";
 
-export const metadata = {
+const metadata = {
   title: "myfair front pre-course",
   description: "todolist",
 };
@@ -16,7 +18,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <LayoutRecoil>{children}</LayoutRecoil>
+        <Global styles={globalStyle} />
+        <ThemeProvider theme={theme}>
+          <LayoutRecoil>{children}</LayoutRecoil>
+        </ThemeProvider>
       </body>
     </html>
   );
