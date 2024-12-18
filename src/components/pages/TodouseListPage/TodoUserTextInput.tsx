@@ -1,5 +1,9 @@
 import { useCallback, useMemo } from "react";
-import { TODO_PLACEHOLDER } from "../../../constants/text";
+import {
+  TODO_LIST_LENGTH_ERROR,
+  TODO_PLACEHOLDER,
+  TODO_TEXT_LENGTH_ERROR,
+} from "../../../constants/text";
 import {
   Input,
   TextForm,
@@ -40,7 +44,7 @@ export default function TodoUserTextInput({
 
       if (value.length > 20) {
         setIsValid(false);
-        setErrorMessage("'할 일'은 20글자를 넘길 수 없습니다.");
+        setErrorMessage(TODO_TEXT_LENGTH_ERROR);
       } else {
         setIsValid(true);
         setErrorMessage("");
@@ -56,7 +60,7 @@ export default function TodoUserTextInput({
 
       if (typeTODO_Count >= 10) {
         setIsValid(false);
-        setErrorMessage("처리가 안된 '할 일'은 10개를 넘을 수 없습니다.");
+        setErrorMessage(TODO_LIST_LENGTH_ERROR);
 
         setTimeout(() => {
           setIsValid(true);
