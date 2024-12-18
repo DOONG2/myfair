@@ -5,7 +5,7 @@ import { Container, Title, ToDoDashboard } from "./style";
 import TodoUserTextInput from "./TodoUserTextInput";
 import TodoUserList from "./TodoUserList";
 import guardLocalStorage from "../../../shared/guardLocalStorage";
-import { TODO_LIST_KEY } from "../../../shared/key";
+import { TODO_LIST_KEY } from "../../../constants/key";
 
 interface TodoUserListPageProps {}
 
