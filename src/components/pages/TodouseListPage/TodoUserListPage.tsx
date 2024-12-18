@@ -48,7 +48,6 @@ const TodoUserListPage = ({}: TodoUserListPageProps) => {
       setTodoInputValue(value);
 
       if (value.length > 20) {
-        console.log("here");
         setIsValid(false);
         setErrorMessage("20글자를 초과할 수 없습니다.");
       } else {
@@ -72,11 +71,9 @@ const TodoUserListPage = ({}: TodoUserListPageProps) => {
     [todoInputValue, isValid]
   );
 
-  console.log(todoList);
   return (
     <Container>
       <Title>To Do List</Title>
-
       <TextInputInner>
         <TextForm onSubmit={handleSubmitTodoInput}>
           <Input
@@ -96,13 +93,33 @@ const TodoUserListPage = ({}: TodoUserListPageProps) => {
         />
         <TodoList>
           <TodoListTitle>{`총 ${todoList.length}개`}</TodoListTitle>
-          {todoList.map(({ type, text }, idx) => (
-            <Todo key={`todo-${idx}`}>
-              <CheckIconInner>
+          {todoList.map(({ type, text }, todoIndex) => (
+            <Todo key={`todo-${todoIndex}`}>
+              <CheckIconInner
+                isActivated={type === "DONE_"}
+                onClick={() => {
+                  setTodoList(list =>
+                    list.map((todo, i) =>
+                      i === todoIndex
+                        ? {
+                            ...todo,
+                            type: todo.type === "TODO_" ? "DONE_" : "TODO_",
+                          }
+                        : todo
+                    )
+                  );
+                }}
+              >
                 {type === "DONE_" && <CheckIcon />}
               </CheckIconInner>
               <TodoText>{text}</TodoText>
-              <CloseIcon />
+              <CloseIcon
+                onClick={() => {
+                  setTodoList(list =>
+                    list.filter((_, closeIndex) => closeIndex !== todoIndex)
+                  );
+                }}
+              />
             </Todo>
           ))}
         </TodoList>

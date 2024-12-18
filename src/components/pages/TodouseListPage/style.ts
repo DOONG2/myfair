@@ -108,11 +108,20 @@ export const TodoText = styled.div`
   font-weight: 400;
 `;
 
-export const CheckIconInner = styled.div`
+export const CheckIconInner = styled.div<{ isActivated: boolean }>`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 32px;
   height: 32px;
 
-  border: 1px solid ${theme.borderPrimaryColor};
+  background-color: ${props =>
+    props.isActivated ? theme.bgCheckActiveColor : ""};
+  border: 1px solid
+    ${props =>
+      props.isActivated
+        ? theme.borderCheckActiveColor
+        : theme.borderPrimaryColor};
   border-radius: 100%;
 
   :hover {
