@@ -11,5 +11,5 @@ function CloseSvg(props: React.SVGProps<SVGSVGElement>) {
   );
 }
 
-const MemoClose = React.memo(CloseSvg);
-export default MemoClose;
+const MemoCloseSvg = React.memo(CloseSvg);
+export default MemoCloseSvg;
